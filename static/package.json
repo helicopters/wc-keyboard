@@ -1,0 +1,17 @@
+{
+    "name": "wc-keyboard",
+    "version": "1.2.1",
+    "description": "Vue keyboard",
+    "main": "index.js",
+    "keywords": [
+        "vue",
+        "keyboard"
+    ],
+    "author": "linfeng123",
+    "license": "MIT",
+    "devDependencies": {
+        "babel-preset-env": "^1.3.3",
+        "babel-preset-stage-0": "^6.24.1",
+        "vue": "^2.2.6"
+    }
+}
