@@ -298,6 +298,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 // 光标闪烁间隔
 var CURSOR_DURATION = 600;
@@ -321,6 +330,10 @@ var CURSOR_DURATION = 600;
 		placeholder: {
 			type: String,
 			default: '询问服务员后输入'
+		},
+		highlightColor: {
+			type: String,
+			default: '#e2e2e2'
 		}
 	},
 	data: function data() {
@@ -344,7 +357,6 @@ var CURSOR_DURATION = 600;
 			var _this = this;
 
 			document.addEventListener('touchstart', function (e) {
-				// this.complete();
 				if (_this.isMe) {
 					_this.isMe = false;
 				} else {
@@ -352,9 +364,24 @@ var CURSOR_DURATION = 600;
 				}
 			}, false);
 		},
+		inputEnd: function inputEnd(e) {
+			this.unhighLight(e.currentTarget);
+		},
+
+		// 恢复默认
+		unhighLight: function unhighLight(ele) {
+			ele.style.backgroundColor = 'white';
+		},
+
+		// 高亮
+		highlight: function highlight(ele) {
+			ele.style.backgroundColor = this.highlightColor;
+		},
 
 		// 用户输入
-		input: function input(val, k, j) {
+		input: function input(val, e) {
+			// 设置高亮
+			this.highlight(e.currentTarget);
 			// 1 检测用户当前输入 (前置检测)
 			var checkedValue = this.preCheck(val);
 			// 2 设置新值
@@ -421,7 +448,8 @@ var CURSOR_DURATION = 600;
 
 
 		// 用户点击删除按钮
-		del: function del() {
+		del: function del(e) {
+			this.highlight(e.currentTarget);
 			this.val = this.val.slice(0, -1);
 		},
 
@@ -663,7 +691,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         staticClass: "key",
         on: {
           "touchstart": function($event) {
-            _vm.input(val)
+            _vm.input(val, $event)
+          },
+          "touchend": function($event) {
+            _vm.inputEnd($event)
           }
         }
       }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(val) + "\n\t\t\t\t\t")])
@@ -674,27 +705,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key dot",
     on: {
       "touchstart": function($event) {
-        _vm.input('.')
+        _vm.input('.', $event)
+      },
+      "touchend": function($event) {
+        _vm.inputEnd($event)
       }
     }
-  }, [_c('span', {
-    attrs: {
-      "data-key": "."
-    }
-  }, [_vm._v(".")])]), _vm._v(" "), _c('div', {
+  }, [_c('i', {
+    staticClass: "iconfont icon-dot"
+  })]), _vm._v(" "), _c('div', {
     staticClass: "key",
-    attrs: {
-      "data-key": "0"
-    },
     on: {
       "touchstart": function($event) {
-        _vm.input(0)
+        _vm.input(0, $event)
+      },
+      "touchend": function($event) {
+        _vm.inputEnd($event)
       }
     }
   }, [_vm._v("0")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "touchstart": _vm.del
+      "touchstart": function($event) {
+        _vm.del($event)
+      },
+      "touchend": function($event) {
+        _vm.inputEnd($event)
+      }
     }
   }, [_c('i', {
     staticClass: "iconfont icon-keyboard-delete del"

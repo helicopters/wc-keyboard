@@ -40,7 +40,7 @@
 	}
 	// 键盘样式
 	.keyboard{
-		height: 260px;
+		height: 250px;
 		width: 100%;
 		position: fixed;
 		bottom: 0;
@@ -49,7 +49,7 @@
 		z-index: 999;
 		// 完成 条 样式
 		.done{
-			height: 60px;
+			height: 50px;
 			background: #f9f9f9;
 			border:1px solid #d6d6d6;
 			padding-right: 10px;
@@ -84,18 +84,19 @@
 				}
 				// 点点样式
 				.dot {
-					position: relative;
+					// position: relative;
 					span{
-						position: absolute;
-						top: -6px;
+						height: 100%;
+						// position: absolute;
+						// top: -6px;
 					}
-				}
-				.del {
-					font-size: 28px;
 				}
 			}
 		}
 	}
+.del {
+	font-size: 28px;
+}
 
 // 动画效果
 .animated {
@@ -171,16 +172,24 @@
 							class="key" 
 							v-for="(val, iKey) in list" 
 							:key="iKey"  
-							@touchstart="input(val)">
+							@touchstart="input(val, $event)"
+							@touchend="inputEnd($event)"
+							>
 							{{val}}
 						</div>
 					</div>
 					<div class="item">
-						<div class="key dot" @touchstart="input('.')" >
-							<span data-key=".">.</span>
+						<div class="key dot" 
+							@touchstart="input('.', $event)"
+							@touchend="inputEnd($event)">
+							<i class="iconfont icon-dot"></i>
 						</div>
-						<div class="key" data-key="0" @touchstart="input(0)" >0</div>
-						<div class="key" @touchstart="del">
+						<div class="key" 
+							@touchstart="input(0, $event)" 
+							@touchend="inputEnd($event)">0</div>
+						<div class="key" 
+							@touchstart="del($event)"
+							@touchend="inputEnd($event)">
 							<i class="iconfont icon-keyboard-delete del"></i>
 						</div>
 					</div>
@@ -212,6 +221,10 @@
 			placeholder: {
 				type: String,
 				default: '询问服务员后输入'
+			},
+			highlightColor: {
+				type: String,
+				default: '#e2e2e2'
 			}
 		},
 		data () {
@@ -223,7 +236,7 @@
 				keyList: [
 						[1,2,3],
 						[4,5,6],
-						[7,8,9],
+						[7,8,9]
 					],
 				isMe: false
 			}
@@ -236,7 +249,6 @@
 			// 为的是实现在 点击非输入框区域的时候, 自动隐藏掉键盘, 并且让输入框失去焦点
 			init () {
 				document.addEventListener('touchstart', e => {
-					// this.complete();
 					if (this.isMe) {
 						this.isMe = false;
 					} else {
@@ -244,8 +256,21 @@
 					}
 				}, false)
 			},
+			inputEnd (e) {
+				this.unhighLight(e.currentTarget);
+			},
+			// 恢复默认
+			unhighLight (ele) {
+				ele.style.backgroundColor = 'white';
+			},
+			// 高亮
+			highlight (ele) {
+				ele.style.backgroundColor = this.highlightColor;
+			},
 			// 用户输入
-			input (val, k, j) {
+			input (val, e) {
+				// 设置高亮
+				this.highlight(e.currentTarget);
 				// 1 检测用户当前输入 (前置检测)
 				let checkedValue = this.preCheck(val);
 				// 2 设置新值
@@ -307,7 +332,8 @@
 
 
 			// 用户点击删除按钮
-			del () {
+			del (e) {
+				this.highlight(e.currentTarget);
 				this.val = this.val.slice(0,-1);
 			},
 			// 检测用户的输入
