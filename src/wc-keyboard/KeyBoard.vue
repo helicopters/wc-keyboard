@@ -1,21 +1,17 @@
-<style lang="less" scoped>
-	.container {
+<style scoped lang="less">
+	.keyboard-box {
 		font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
 		user-select:none;
+		font-size: 16px;
+		height: 100%;
+		width: 100%;		
 	}
 	// 自定义的输入框
 	.input-box{
 		display: flex;
 		align-items:center;
 		justify-content:space-between;
-
-		// 输入框样式
-	    height: 48px;
-	    border: 1px solid #dadada;
-	    background-color: #fff;
-	    padding: 0 10px;
-	    margin:0 10px;
-	    border-radius: 4px;
+		height: 100%;
 	    .label{
 	    	color:#333;
 	    }
@@ -48,6 +44,8 @@
 		width: 100%;
 		position: fixed;
 		bottom: 0;
+		left: 0;
+		background: white;
 		z-index: 999;
 		// 完成 条 样式
 		.done{
@@ -72,6 +70,7 @@
 				height: 25%;
 				border-top:1px solid #d6d6d6;
 				display: flex;
+
 				.key{
 					border-right: 1px solid #d6d6d6;
 					flex:1;
@@ -131,17 +130,14 @@
 .slide-leave-active {
    animation-name: slideInDown;
 }
-
-
-
 </style>
 <template>
-	<div class="container">
+	<div class="keyboard-box" @touchstart="who">
 
 		<!-- 输入框部分 -->
 		<div class="input-box" @touchstart="getUp">
 			<!-- 左侧内容 -->
-			<p class="label">消费总额 : </p>
+			<p class="label">{{label}} : </p>
 
 			<!-- 右侧内容 -->
 			<div class="content">
@@ -154,7 +150,7 @@
 				</p>
 				<!-- placeholder -->
 				<p class="placeholder" v-if="val.length === 0">
-					询问服务员后输入
+					{{placeholder}}
 				</p>
 				<!-- 光标 -->
 				<p class="cursor" :style="{visibility: cursor ? 'visible' : 'hidden'}"></p>
@@ -166,25 +162,25 @@
 		<transition name="slide">
 			<div class="keyboard animated" v-if="keyboard">
 				<div class="done" >
-					<p class="text" @touchstart="done">完成</p>
+					<p class="text" @touchstart="complete">完成</p>
 				</div>
 				<!-- 键盘区域 -->
 				<div class="list">
 					<div class="item" v-for="(list, key) in keyList" :key="key">
-						<div class="key" 
+						<div 
+							class="key" 
 							v-for="(val, iKey) in list" 
 							:key="iKey"  
-							@touchstart="keyPress(val)" >
+							@touchstart="input(val)">
 							{{val}}
 						</div>
 					</div>
 					<div class="item">
-						<div class="key dot" @touchstart="keyPress('.')" >
+						<div class="key dot" @touchstart="input('.')" >
 							<span data-key=".">.</span>
 						</div>
-						<div class="key" data-key="0" @touchstart="keyPress(0)" >0</div>
+						<div class="key" data-key="0" @touchstart="input(0)" >0</div>
 						<div class="key" @touchstart="del">
-							<!-- <img src="./imgs/keyboard-delete.png" alt=""> -->
 							<i class="iconfont icon-keyboard-delete del"></i>
 						</div>
 					</div>
@@ -192,11 +188,32 @@
 			</div>
 		</transition>
 	</div>
-	<!-- end -->
 </template>
-<script>
+<script>	
+	// 光标闪烁间隔
+	let CURSOR_DURATION = 600;
 	export default {
 		name: 'keyboard',
+		props: {
+			// 整数精度
+			inter: {
+				type: Number,
+				default: 5
+			},
+			// 小数精度
+			decimal: {
+				type: Number,
+				default: 2
+			},
+			label: {
+				type: String,
+				default: '消费金额'
+			},
+			placeholder: {
+				type: String,
+				default: '询问服务员后输入'
+			}
+		},
 		data () {
 			return {
 				cursor: false,
@@ -207,90 +224,176 @@
 						[1,2,3],
 						[4,5,6],
 						[7,8,9],
-					]
+					],
+				isMe: false
 			}
 		},
+		mounted () {
+			this.init();
+		},
 		methods: {
-			blink (e) {
-				this.cursor = true;
+			// 监听 touchstart 事件
+			// 为的是实现在 点击非输入框区域的时候, 自动隐藏掉键盘, 并且让输入框失去焦点
+			init () {
+				document.addEventListener('touchstart', e => {
+					// this.complete();
+					if (this.isMe) {
+						this.isMe = false;
+					} else {
+						this.complete();				
+					}
+				}, false)
+			},
+			// 用户输入
+			input (val, k, j) {
+				// 1 检测用户当前输入 (前置检测)
+				let checkedValue = this.preCheck(val);
+				// 2 设置新值
+				this.setVal( checkedValue );
+			},
+
+			// 监听输入框的 touchstart 事件
+			who () {
+				this.isMe = true;
+			},
+			// 点击输入框, 唤起键盘, 并且让光标闪烁
+			getUp () {
+				this.showKeyBoard();
+				this.focus();
+			},
+			showKeyBoard () {
+				this.keyboard = true;
+			},
+			hideKeyBoard () {
+				this.keyboard = false;
+			},
+			// 输入框聚焦
+			focus () {
+				this.showCursor();
+				// 防止多次点击的时候, 光标狂闪
 				clearInterval(this.intervalID);
+				// 让光标动起来
 				this.intervalID = setInterval(()=>{
 					this.cursor = !this.cursor;
-				}, 600);
+				}, CURSOR_DURATION);
 			},
-			done () {
-				this.keyboard = false;
+			// 输入框失焦
+			blur () {
+				this.hideCursor();
 				clearInterval(this.intervalID);
+			},
+
+			showCursor () {
+				this.cursor = true;
+			},
+			hideCursor () {
 				this.cursor = false;
+			},
+			// 点击完成
+			complete () {
+				// 1 输入框失焦
+				this.blur();
+
+				// 2 隐藏键盘
+				this.hideKeyBoard();
+
+				// 3 再次验证当前的值 (后置验证)
+				this.nextCheck();
+
+				// 4 发送当前的值 (原样发送, 一丝不动)
+				this.$emit('input', this.val);
+			},
+
+
+
+			// 用户点击删除按钮
+			del () {
+				this.val = this.val.slice(0,-1);
+			},
+			// 检测用户的输入
+			preCheck (val) {
+				let v = val;  // 当前输入的值
+				let cv = this.val;    // 当前已经输入的值
+
+				// 1 禁止输入以 . 开始的值
+				v = this.disallowDotStart(v, cv);
+
+				// 2 禁止输入以 0 开始, 多个连续的 0, 比如 000
+				v = this.disallowMoreZero(v, cv);
+
+				// 3 输入的值的精度控制, 默认是 整数 5位, 小数两位
+				v = this.checkAccuracy(v, cv)
+
+				return v;
+			},
+			// 后置检查
+			nextCheck () {
+				// 如果当前值最后一位是 .
 				if (this.val.substr(this.val.length - 1, 1) === '.') {
-					let list = this.val.split('.');
-					list.push('.00');
-					this.val = list.join('');
-					if (this.val === '0.00') {
-						this.val = ''
-					}
+					this.val = this.val + '00';
 				}
-				if (this.val === '0') {
+				// 如果当前值为 0, 使用 parseFloat, parseInt 对小数变成 0
+				if (parseFloat(this.val) === 0) {
 					this.val = ''
 				}
-				this.$emit('input', parseFloat(this.val));
-			},
-			getUp () {
-				this.keyboard = true;
-				this.blink();
-			},
-			keyPress (val) {
-				this.setVal(this.checkVal(val));
-			},
-			checkVal (v) {
-				let curV = this.val;
-				let curVL = this.val.length;
 
-				// 如果当前输入的值是 .
+			},
+			// 检测规则集合
+			disallowDotStart (v, cv) {
+				// 如果输入的是一个点
 				if (v === '.') {
-					// 如果当前的值长度为 0, 说明是在首位输入 ., 不允许
-					if (curVL === 0) {
-						v = ''
-					}
-					// 如果当前值的长度不为 0, 需要查看当前值中是否已经存在 .
-				    else {
-				    	if (curV.indexOf('.') > -1) {
-				    		v = ''
-				    	}
-				    }
-				}
-				// 如果当前值的首位已经是 0, 并且当前值长度还为 1, 不允许
-				if (curV.slice(0, 1) === '0' && curVL === 1 && v!=='.'){
-					v = ''
-				}
-				// 当前首先要存在小数点
-				if (curV.indexOf('.') > -1) {
-					let splitList = curV.split('.');
-					// 限制小数位数 2
-					if (splitList[1].length === 2) {
-						v = ''
-					}
-					// 限制整数位 5
-					if (splitList[0].length === 8) {
-						v = ''
+					// 当前值又是个空
+					if (cv.length === 0) {
+						return '';
+					} else if (cv.indexOf('.') > -1) {
+						// 如果当前值不为空,看看现在的值是不是有 .
+						return '';
 					}
 				}
-				// 如果不存在小数点,限制整数位数
-				else {
-					if (v === '.') {
+				return v;
+			},
 
-					}
-					else if (curV.length === 5) {
+			disallowMoreZero (v, cv) {
+				// 如果当前的值的首位是 0
+				if (cv.slice(0, 1) === '0' && cv.length === 1) {
+					// 如果你现在输入的值是 . 
+					if (v !== '.') {
 						v = ''
 					}
 				}
 				return v;
 			},
-			setVal (v) {
-				this.val = (this.val + v).trim();
+
+			checkAccuracy (v, cv) {
+				// 如果存在小数点, 只用判断小数的个数即可
+				let list = cv.split('.');
+				if (cv.indexOf('.') > -1) {
+					v = this.checkDecimal(v, list[1]);
+				} else {
+					v = this.checkInteger(v, list[0]);
+				}
+				return v;				
 			},
-			del () {
-				this.val = this.val.slice(0,-1);
+			checkInteger (v, cv) {
+				// 如果当前的位数已经到达限制了
+				if (cv.length === this.inter) {
+					// 如果输入的是一个 .
+					if (v === '.') {
+						return v;
+					}
+					return ''
+				}
+				return v;
+			},
+			checkDecimal (v, cv) {
+				if (cv.length === this.decimal) {
+					return ''
+				}
+				return v;
+			},
+			// 设置用户输入
+			setVal (newVal) {
+				this.val = this.val + newVal;
 			}
 		}
 	}
