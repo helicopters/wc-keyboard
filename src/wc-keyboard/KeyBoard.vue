@@ -326,15 +326,13 @@
 				this.nextCheck();
 
 				// 4 发送当前的值 (原样发送, 一丝不动)
-				this.$emit('input', this.val);
+				this.emit();
 			},
-
-
-
 			// 用户点击删除按钮
 			del (e) {
 				this.highlight(e.currentTarget);
 				this.val = this.val.slice(0,-1);
+				this.emit();
 			},
 			// 检测用户的输入
 			preCheck (val) {
@@ -348,7 +346,7 @@
 				v = this.disallowMoreZero(v, cv);
 
 				// 3 输入的值的精度控制, 默认是 整数 5位, 小数两位
-				v = this.checkAccuracy(v, cv)
+				v = this.checkAccuracy(v, cv);
 
 				return v;
 			},
@@ -361,6 +359,10 @@
 				// 如果当前值为 0, 使用 parseFloat, parseInt 对小数变成 0
 				if (parseFloat(this.val) === 0) {
 					this.val = ''
+				}
+				// 格式化不规范的输入, 比如 23.0
+				if (this.val.slice(this.val.length - 2, this.length) === '.0') {
+					this.val = this.val + '0'
 				}
 
 			},
@@ -420,6 +422,11 @@
 			// 设置用户输入
 			setVal (newVal) {
 				this.val = this.val + newVal;
+				// 输入的时候也要传递值出去
+				this.emit();
+			},
+			emit () {
+				this.$emit('input', this.val);
 			}
 		}
 	}
