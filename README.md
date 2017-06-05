@@ -6,7 +6,7 @@
 2. 换成 input type = text, 发现唤起的键盘不是数字键盘
 3. 最终选择 input type = number, 又发现验证规则有部分实现不了
 
-## 感谢
+## 参考
 [xwpongithub/better-keyboard](https://github.com/xwpongithub/better-keyboard)
 
 

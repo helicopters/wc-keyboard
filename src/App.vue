@@ -1,17 +1,11 @@
 <style>
 
-.box{
-  border:1px solid #ccc;
-  height: 45px;
-  padding:10px;
-  margin:10px;
-}
 
 </style>
 <template>
   <div id="aap">
-    <div class="box">
-      <key-board @input="keyInput"/>
+    <div class="box" @touchstart="cao">
+      <wc-keyboard @input="keyInput"/>
     </div>
     
   </div>
@@ -21,7 +15,10 @@
   	methods: {
   		keyInput (v) {
   			console.log(v);
-  		}
+  		},
+      cao () {
+        console.log('我')
+      }
   	}
   }
 </script>
