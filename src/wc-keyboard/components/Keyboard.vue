@@ -110,7 +110,7 @@
 				<div class="key" 
 					@touchstart.stop="typing(0)">0</div>
 				<div class="key" 
-					@touchstart.stop="typing(-1)">
+					@touchstart.stop="typing('')">
 					<i class="iconfont icon-keyboard-delete del"></i>
 				</div>
 			</div>

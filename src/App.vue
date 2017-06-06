@@ -5,7 +5,8 @@
 <template>
   <div id="aap">
     <div class="box" @touchstart="cao">
-      <wc-keyboard @input="keyInput" :data="keyboardConfig"/>
+      <wc-keyboard @wcinput="keyInput" :data="keyboardConfig"/>
+      <input type="number" v-model="v">
     </div>
     
   </div>
@@ -17,12 +18,14 @@
         keyboardConfig: {
           inter: 3,
           // placeholder: ''
-        }
+        },
+        v: 0
       }
     },
   	methods: {
   		keyInput (v) {
   			console.log(v);
+        this.v = v;
   		},
       cao () {
         console.log('我')

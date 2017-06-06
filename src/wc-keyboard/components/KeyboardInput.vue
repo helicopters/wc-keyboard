@@ -88,15 +88,16 @@
 				this.val = this.val.slice(0, -1);
 			},
 			typing ({value}) {
-				if (value == '-1') {
+				if (value == '') {
 					this.del();
-					return;
 				}
 				let oldValue = this.val;
 				this.val += value;
 				if (!this.passCheck(this.val)) {
 					this.val = oldValue;
 				}
+				/*为了让外界同步输入, 需要发送事件*/
+				this.$emit('wcinput', this.val);
 			},
 			passCheck (val) {
 				/*验证规则*/
