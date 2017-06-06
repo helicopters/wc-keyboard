@@ -15,12 +15,11 @@
 npm i wc-keyboard --save
 ```
 ```javascript
-import KeyBoard from 'wc-keyboard'
+import wcKeyBoard from 'wc-keyboard'
 import 'wc-keyboard/style.css'
-Vue.use(KeyBoad);
+Vue.use(wcKeyBoad);
 
-.key-board
-	<key-board :data="config">
+<wc-keyboard :data="keyboardConfig"/>
 config = {
 	inter: 5,  // 整数位数限制
 	decimal: 2 // 小数位数限制,
@@ -29,9 +28,3 @@ config = {
 	highlightColor: ''  // 高亮的颜色
 }
 ```
-
-## 说明
-1. 个人还是建议直接 clone 当前项目, 这样修改样式比较方便一点
-2. 使用的时候需要在外层套一个元素, 用来控制 key-board 的样式, 因为可能你需要自己定义样式
-   所以我没有给 keyboard 一个默认的样式, 这样你不好改.
-3. 我在 src/wc-keyboard/KeyBoard.vue 里面留了详细的注释, 也方便你在这个基础上自行开发
