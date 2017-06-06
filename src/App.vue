@@ -6,7 +6,6 @@
   <div id="aap">
     <div class="box" @touchstart="cao">
       <wc-keyboard @wcinput="keyInput" :data="keyboardConfig"/>
-      <input type="number" v-model="v">
     </div>
     
   </div>

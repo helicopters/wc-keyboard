@@ -1,6 +1,9 @@
 ## wc-keyboard
 基于 vue 封装的一个自定义数字键盘, 仿照大众点评闪惠买单的价格输入键盘
 
+## 长这样
+![demo](https://www.tuchuang001.com/images/2017/06/06/screencapture-192-168-1-117-10485-1496716411892.png)
+
 ## 原因
 1. 刚开始选用 input type = tel, 发现移动端没有办法输入小数
 2. 换成 input type = text, 发现唤起的键盘不是数字键盘

@@ -41,7 +41,9 @@
 		methods: {
 			/*向调用者发送当前值, 当前值是经过 parseFloat 的值*/
 			input (val) {
-				this.$emit('wcinput', parseFloat(val));
+				let v = parseFloat(val);
+
+				this.$emit('wcinput', isNaN(v) ? '' : v);
 			}
 		}
 	}
