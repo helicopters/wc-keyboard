@@ -29,8 +29,7 @@
 			color: #c1c1c1;
 		}
 	}
-}
-	
+}	
 </style>
 <template>		
 	<div class="input-box" @touchstart.stop="focus">
@@ -73,10 +72,6 @@
 			placeholder: {
 				type: String,
 				default: '询问服务员后输入'
-			},
-			cursorDuration: {
-				type: Number,
-				default: 600
 			}
 		},
 		data () {
@@ -84,7 +79,8 @@
 				cursor: false,
 				bFocus: false,
 				val: '',
-				aIllegal: ['00', '01' ,'02','03','04','05','06','07','08','09', '0..', '.']
+				aIllegal: ['00', '01' ,'02','03','04','05','06','07','08','09', '0..', '.'],
+				cursorDuration: 600
 			}
 		},
 		methods: {
@@ -153,14 +149,14 @@
 				this.intervalID = setInterval(()=>{
 					this.cursor = !this.cursor;
 				}, this.cursorDuration);
-				Bus.$emit('focus', {});
+				Bus.$emit('focus');
 			},
 			/*blur*/
 			blur () {
 				this.bFocus = false;
 				this.hideCursor();
 				clearInterval(this.intervalID);
-				Bus.$emit('blur', {});
+				Bus.$emit('blur');
 			},
 			showCursor () {
 				this.cursor = true;

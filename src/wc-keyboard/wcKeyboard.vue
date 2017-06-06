@@ -1,7 +1,12 @@
 <template>
 	<div>
 		<!-- 输入框 -->
-		<keyboard-input ref="KeyboardInput"/>
+		<keyboard-input ref="KeyboardInput"
+			:inter="data.inter"
+			:decimal="data.decimal"
+			:label="data.label"
+			:placeholder="data.placeholder"
+		/>
 		<!-- 键盘部分 -->
 		<keyboard/>
 	</div>
@@ -16,6 +21,7 @@
 			Keyboard,
 			KeyboardInput
 		},
+		props: ['data'],
 		created () {
 			document.addEventListener('touchstart', e => {
 				this.$refs.KeyboardInput.blur();
