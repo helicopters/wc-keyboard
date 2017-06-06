@@ -27,7 +27,6 @@ config = {
 	inter: 5,  // 整数位数限制
 	decimal: 2 // 小数位数限制,
 	label: '' // 默认 ‘消费金额’,
-	placeholder: '' 默认 '询问服务员后输入'，
-	highlightColor: ''  // 高亮的颜色
+	placeholder:  //'' 默认 '询问服务员后输入'
 }
 ```
