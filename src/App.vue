@@ -4,31 +4,28 @@
 </style>
 <template>
   <div id="aap">
-    <div class="box" @touchstart="cao">
-      <wc-keyboard @wcinput="keyInput" :data="keyboardConfig"/>
-    </div>
-    
+     <wc-keyboard 
+        placeholder="询问服务员后输入"
+        inter="3"
+
+        v-model="val"/>
+     {{val}}
   </div>
 </template>
 <script>
   export default {
     data () {
       return {
-        keyboardConfig: {
-          inter: 3,
-          // placeholder: ''
-        },
-        v: 0
+        // keyboardConfig: {
+        //   inter: 5,
+        // },
+        val: '123'
       }
     },
   	methods: {
   		keyInput (v) {
-  			console.log(v);
         this.v = v;
-  		},
-      cao () {
-        console.log('我')
-      }
+  		}
   	}
   }
 </script>

@@ -87,28 +87,28 @@
 </style>
 <template>
 	<transition name="slide">
-		<div class="keyboard animated" v-if="keyboard">
+		<div class="keyboard animated" v-show="show">
 			<!-- 顶部完成 -->
 			<div class="done" @touchstart.stop="fn">
 				<p class="text" @touchstart.stop="complete">完成</p>
 			</div>
 			<!-- 键盘区域 -->
 			<div class="list">
-				<div class="key" @touchstart.stop="typing(1)">1</div>
-				<div class="key" @touchstart.stop="typing(2)">2</div>
-				<div class="key" @touchstart.stop="typing(3)">3</div>
-				<div class="key" @touchstart.stop="typing(4)">4</div>
-				<div class="key" @touchstart.stop="typing(5)">5</div>
-				<div class="key" @touchstart.stop="typing(6)">6</div>
-				<div class="key" @touchstart.stop="typing(7)">7</div>
-				<div class="key" @touchstart.stop="typing(8)">8</div>
-				<div class="key" @touchstart.stop="typing(9)">9</div>
+				<div class="key" @touchstart.stop="typing('1')">1</div>
+				<div class="key" @touchstart.stop="typing('2')">2</div>
+				<div class="key" @touchstart.stop="typing('3')">3</div>
+				<div class="key" @touchstart.stop="typing('4')">4</div>
+				<div class="key" @touchstart.stop="typing('5')">5</div>
+				<div class="key" @touchstart.stop="typing('6')">6</div>
+				<div class="key" @touchstart.stop="typing('7')">7</div>
+				<div class="key" @touchstart.stop="typing('8')">8</div>
+				<div class="key" @touchstart.stop="typing('9')">9</div>
 				<div class="key dot" 
 					@touchstart.stop="typing('.')">
 					<i class="iconfont icon-dot"></i>
 				</div>
 				<div class="key" 
-					@touchstart.stop="typing(0)">0</div>
+					@touchstart.stop="typing('0')">0</div>
 				<div class="key" 
 					@touchstart.stop="typing('')">
 					<i class="iconfont icon-keyboard-delete del"></i>
@@ -118,17 +118,8 @@
 	</transition>
 </template>
 <script>	
-
-import Bus from './Bus'
 	export default {
-	created() {  
-	        Bus.$on('focus', target => {  
-	            this.keyboard = true;
-	        });  
-	        Bus.$on('blur', target => {  
-	            this.keyboard = false;
-	        });
-		},
+		props: ['show'],
 		data () {
 			return {
 				keyboard: false,
@@ -137,15 +128,16 @@ import Bus from './Bus'
 		methods: {
 			/*防止点击完成按钮左边的空白区域收起键盘*/
 			fn () {},
-			/*输入*/
+			/*
+				将当前点击的值提交给 输入框
+				typeof val 始终恒定为 String 类型
+			*/
 			typing (val) {
-				Bus.$emit('typing', {
-					value: val
-				});
+				this.$emit('typing', val);
 			},
 			/*点击完成*/
 			complete () {
-				Bus.$emit('complete');
+				this.$emit('complete');
 			}	
 		}
 	}

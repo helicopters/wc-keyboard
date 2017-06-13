@@ -1,4 +1,12 @@
 <style scoped lang="less">
+
+.keyboard{
+	font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+	user-select:none;
+	font-size: 16px;
+			
+}
+
 .input-box {
 	display: flex;
 	align-items: center;
@@ -31,73 +39,132 @@
 	}
 }	
 </style>
-<template>		
-	<div class="input-box" @touchstart.stop="focus">
-		<p class="label">{{label}} : </p>
-		<div class="content">
-			<p class="input">
-				<span class="currency" v-show="val">¥</span>
-				{{val}}
-			</p>
-			<p class="placeholder" v-if="val.length === 0">
-				{{placeholder}}
-			</p>
-			<!-- 光标 -->
-			<p class="cursor" :style="{visibility: cursor ? 'visible' : 'hidden'}"></p>
-
+<template>
+	<div class="keyboard">
+		<!-- 自定义输入框 -->
+		<div class="input-box" @touchstart.stop="focus">
+			<!-- 左侧标签 -->
+			<p class="label">{{label}} : </p>
+			<!-- 右侧内容 -->
+			<div class="content">
+				<p class="input">
+					<span class="currency" v-show="value">¥</span>
+					{{value}}
+				</p>
+				<p class="placeholder" v-if="value.length === 0">
+					{{placeholder}}
+				</p>
+				<!-- 光标 -->
+				<p class="cursor" :style="{visibility: cursor ? 'visible' : 'hidden'}"></p>
+			</div>
 		</div>
-	</div>	
+		<!-- 自定义键盘 -->
+		<keyboard 
+			:show="keyboard"
+			@typing="typing"
+			@complete="blur"/>		
+	</div>		
+
 </template>
 <script>
-	import Bus from './Bus'
+	import keyboard from './keyboard'
 	export default {
 		name: 'KeyboardInput',
-		created () {
-			Bus.$on('typing', this.typing);
-			Bus.$on('complete', this.blur);
+		components: {
+			keyboard
 		},
+		created () {
+			document.addEventListener('touchstart', () => {
+				this.blur();
+			});
+		},	
 		props: {
+			value: {},
 			inter: {
-				type: Number,
 				default: 5
 			},
 			decimal: {
-				type: Number,
 				default: 2
 			},
 			label: {
-				type: String,
 				default: '消费金额'
 			},
 			placeholder: {
-				type: String,
 				default: '询问服务员后输入'
 			}
 		},
 		data () {
 			return {
 				cursor: false,
-				bFocus: false,
-				val: '',
+				keyboard: false,
+				/*value 在组件中的值*/
+				val: '', 
 				aIllegal: ['00', '01' ,'02','03','04','05','06','07','08','09', '0..', '.'],
-				cursorDuration: 600
+				cursorDuration: 600,
 			}
 		},
 		methods: {
+			/*focus*/
+			focus () {
+				/*显示光标*/
+				this.showCursor();
+				/*闪烁光标*/
+				this.blinkCursor();
+				/*显示键盘*/
+				this.showKeyboard();
+			},
+			blinkCursor () {
+				clearInterval(this.intervalID);
+				this.intervalID = setInterval(()=>{
+					this.cursor = !this.cursor;
+				}, this.cursorDuration);
+			},
+			unblinkCursor () {
+				clearInterval(this.intervalID);
+			},
+			/*blur*/
+			blur () {
+				/*隐藏光标*/
+				this.hideCursor();
+				/*停止光标闪烁*/
+				this.unblinkCursor();
+				/*隐藏键盘*/
+				this.hideKeyboard();
+			},
+			showKeyboard () {
+				this.keyboard = true;
+			},
+			hideKeyboard () {
+				this.keyboard = false;
+			},
+			showCursor () {
+				this.cursor = true;
+			},
+			hideCursor () {
+				this.cursor = false;
+			},
 			del () {
 				this.val = this.val.slice(0, -1);
+				/*删除值并不会触发值的校验, 所以需要手动再触发一次*/
+				this.$emit('input',this.val);
 			},
-			typing ({value}) {
+			/*输入*/
+			typing (value) {
+				/*如果是点击删除*/
 				if (value == '') {
 					this.del();
 				}
+				/*保存旧的值*/
 				let oldValue = this.val;
-				this.val += value;
+				/*获取新的值*/
+				this.val = this.val + value;
+				/*检验新值, 如果没有通过检测, 恢复值*/
 				if (!this.passCheck(this.val)) {
 					this.val = oldValue;
+					return;
 				}
 				/*为了让外界同步输入, 需要发送事件*/
-				this.$emit('wcinput', this.val);
+				this.$emit('input',this.val);
 			},
 			passCheck (val) {
 				/*验证规则*/
@@ -106,13 +173,10 @@
 						this.illegalValue,
 						this.accuracy
 					]
-
 				return aRules.every((item) => {
 					return item(val);
 				});
 			},
-			
-			// 非法输入
 			illegalInput (val) {
 				if (this.aIllegal.indexOf(val)>-1) {
 					return false;
@@ -129,41 +193,15 @@
 			/*验证精度*/
 			accuracy (val) {
 				let v = val.split('.')
-				// 整数部分
+	
 				if (v[0].length > this.inter) {
 					return false;
 				}					
-				// 小数部分
+	
 				if (v[1] && (v[1].length) > this.decimal) {
 					return false;					
 				}
 				return true;				
-			},
-			/*focus*/
-			focus () {
-				if (this.bFocus) {
-					return;
-				}
-				this.bFocus = true;
-				this.showCursor();
-				clearInterval(this.intervalID);
-				this.intervalID = setInterval(()=>{
-					this.cursor = !this.cursor;
-				}, this.cursorDuration);
-				Bus.$emit('focus');
-			},
-			/*blur*/
-			blur () {
-				this.bFocus = false;
-				this.hideCursor();
-				clearInterval(this.intervalID);
-				Bus.$emit('blur');
-			},
-			showCursor () {
-				this.cursor = true;
-			},
-			hideCursor () {
-				this.cursor = false;
 			}	
 		}
 	}
