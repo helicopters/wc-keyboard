@@ -7,6 +7,7 @@
      <wc-keyboard 
         placeholder="询问服务员后输入"
         inter="3"
+        decimal="4"
 
         v-model="val"/>
      {{val}}

@@ -1,12 +1,9 @@
 <style scoped lang="less">
-
 .keyboard{
 	font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
 	user-select:none;
-	font-size: 16px;
-			
+	font-size: 16px;			
 }
-
 .input-box {
 	display: flex;
 	align-items: center;
@@ -48,10 +45,10 @@
 			<!-- 右侧内容 -->
 			<div class="content">
 				<p class="input">
-					<span class="currency" v-show="value">¥</span>
-					{{value}}
+					<span class="currency" v-show="val">¥</span>
+					{{val}}
 				</p>
-				<p class="placeholder" v-if="value.length === 0">
+				<p class="placeholder" v-if="val.length === 0">
 					{{placeholder}}
 				</p>
 				<!-- 光标 -->
@@ -130,6 +127,12 @@
 				this.unblinkCursor();
 				/*隐藏键盘*/
 				this.hideKeyboard();
+				/*
+					附加 00, 如果用户输入了一个以 . 结尾的值就点完成了, 
+					那么这个时候就在后面加上00
+				*/
+				this.toAddZero();
+
 			},
 			showKeyboard () {
 				this.keyboard = true;
@@ -143,10 +146,27 @@
 			hideCursor () {
 				this.cursor = false;
 			},
+			/*判读是否需要加0*/
+			toAddZero () {
+				if (this.val.slice(-1) === '.') {
+					this.addZero();
+				} 
+			},
+			addZero () {
+				let v = '';
+				for(let i =0;i<this.decimal;i++){
+					v = v + '0';
+				}
+				this.val = this.val + v;
+				this.notify();
+			},
+			notify () {
+				this.$emit('input',this.val);
+			},
 			del () {
 				this.val = this.val.slice(0, -1);
 				/*删除值并不会触发值的校验, 所以需要手动再触发一次*/
-				this.$emit('input',this.val);
+				this.notify();
 			},
 			/*输入*/
 			typing (value) {
@@ -164,7 +184,7 @@
 					return;
 				}
 				/*为了让外界同步输入, 需要发送事件*/
-				this.$emit('input',this.val);
+				this.notify();
 			},
 			passCheck (val) {
 				/*验证规则*/
@@ -193,11 +213,9 @@
 			/*验证精度*/
 			accuracy (val) {
 				let v = val.split('.')
-	
 				if (v[0].length > this.inter) {
 					return false;
-				}					
-	
+				}
 				if (v[1] && (v[1].length) > this.decimal) {
 					return false;					
 				}
