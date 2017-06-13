@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import wcKeyboard from './components/KeyboardInput'
+import wcKeyboard from './KeyboardInput'
 
 import './fonts/iconfont.css'
 
