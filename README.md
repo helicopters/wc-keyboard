@@ -6,6 +6,9 @@
 符合指定规则的金额, 并不是为了提供一个自定义的键盘, 所以我想着改一下, 不叫 wc-keyboard
 叫做 wc-input. 但是改起来比较麻烦, 所以还是不动了.
 
+## 更新2
+本来希望可以给一个默认值, 但是想想这样用处不大
+
 ## 原因
 1. 刚开始选用 input type = tel, 发现移动端没有办法输入小数
 2. 换成 input type = text, 发现唤起的键盘不是数字键盘
@@ -24,11 +27,10 @@ import wcKeyBoard from 'wc-keyboard'
 import 'wc-keyboard/style.css'
 Vue.use(wcKeyBoad);
 
-<wc-keyboard :data="keyboardConfig"/>
-config = {
-	inter: 5,  // 整数位数限制
-	decimal: 2 // 小数位数限制,
-	label: '' // 默认 ‘消费金额’,
-	placeholder:  //'' 默认 '询问服务员后输入'
-}
+<wc-keyboard
+	inter="5"
+	decimal="2"
+	placeholder="询问服务员后输入"
+	label="消费金额"/>
+
 ```
