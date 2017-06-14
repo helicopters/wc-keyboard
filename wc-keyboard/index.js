@@ -646,7 +646,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "done",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.fn($event)
       }
@@ -664,7 +664,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('1')
       }
@@ -672,7 +672,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("1")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('2')
       }
@@ -680,7 +680,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("2")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('3')
       }
@@ -688,7 +688,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("3")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('4')
       }
@@ -696,7 +696,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("4")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('5')
       }
@@ -704,7 +704,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("5")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('6')
       }
@@ -712,7 +712,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("6")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('7')
       }
@@ -720,7 +720,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("7")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('8')
       }
@@ -728,7 +728,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("8")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('9')
       }
@@ -736,7 +736,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("9")]), _vm._v(" "), _c('div', {
     staticClass: "key dot",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('.')
       }
@@ -746,7 +746,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('0')
       }
@@ -754,7 +754,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("0")]), _vm._v(" "), _c('div', {
     staticClass: "key",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.typing('')
       }

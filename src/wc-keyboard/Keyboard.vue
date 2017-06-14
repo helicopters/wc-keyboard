@@ -89,28 +89,28 @@
 	<transition name="slide">
 		<div class="keyboard animated" v-show="show">
 			<!-- 顶部完成 -->
-			<div class="done" @click.stop="fn">
+			<div class="done" @touchstart.stop="fn">
 				<p class="text" @click.stop="complete">完成</p>
 			</div>
 			<!-- 键盘区域 -->
 			<div class="list">
-				<div class="key" @click.stop="typing('1')">1</div>
-				<div class="key" @click.stop="typing('2')">2</div>
-				<div class="key" @click.stop="typing('3')">3</div>
-				<div class="key" @click.stop="typing('4')">4</div>
-				<div class="key" @click.stop="typing('5')">5</div>
-				<div class="key" @click.stop="typing('6')">6</div>
-				<div class="key" @click.stop="typing('7')">7</div>
-				<div class="key" @click.stop="typing('8')">8</div>
-				<div class="key" @click.stop="typing('9')">9</div>
+				<div class="key" @touchstart.stop="typing('1')">1</div>
+				<div class="key" @touchstart.stop="typing('2')">2</div>
+				<div class="key" @touchstart.stop="typing('3')">3</div>
+				<div class="key" @touchstart.stop="typing('4')">4</div>
+				<div class="key" @touchstart.stop="typing('5')">5</div>
+				<div class="key" @touchstart.stop="typing('6')">6</div>
+				<div class="key" @touchstart.stop="typing('7')">7</div>
+				<div class="key" @touchstart.stop="typing('8')">8</div>
+				<div class="key" @touchstart.stop="typing('9')">9</div>
 				<div class="key dot" 
-					@click.stop="typing('.')">
+					@touchstart.stop="typing('.')">
 					<i class="iconfont icon-dot"></i>
 				</div>
 				<div class="key" 
-					@click.stop="typing('0')">0</div>
+					@touchstart.stop="typing('0')">0</div>
 				<div class="key" 
-					@click.stop="typing('')">
+					@touchstart.stop="typing('')">
 					<i class="iconfont icon-keyboard-delete del"></i>
 				</div>
 			</div>
