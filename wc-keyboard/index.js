@@ -238,7 +238,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	created: function created() {
 		var _this = this;
 
-		document.addEventListener('click', function () {
+		document.addEventListener('touchstart', function () {
 			_this.blur();
 		});
 	},
@@ -272,12 +272,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		/*focus*/
 		focus: function focus() {
+			/*显示键盘*/
+			this.showKeyboard();
 			/*显示光标*/
 			this.showCursor();
 			/*闪烁光标*/
 			this.blinkCursor();
-			/*显示键盘*/
-			this.showKeyboard();
 		},
 		blinkCursor: function blinkCursor() {
 			var _this2 = this;
@@ -324,7 +324,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.cursor = false;
 		},
 		checkValue: function checkValue() {
-			if (parseInt(this.val) === 0) {
+			if (parseFloat(this.val) === 0) {
 				this.val = '';
 			}
 		},
@@ -774,7 +774,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "input-box",
     on: {
-      "click": function($event) {
+      "touchstart": function($event) {
         $event.stopPropagation();
         _vm.focus($event)
       }

@@ -150,7 +150,7 @@
 				this.cursor = false;
 			},
 			checkValue () {
-				if (parseInt(this.val) === 0) {
+				if (parseFloat(this.val) === 0) {
 					this.val = '';
 				}
 			},
