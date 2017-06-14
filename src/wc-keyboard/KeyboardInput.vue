@@ -36,7 +36,7 @@
 <template>
 	<div class="keyboard">
 		<!-- 自定义输入框 -->
-		<div class="input-box" @click.stop="focus">
+		<div class="input-box" @touchstart.stop="focus">
 			<!-- 左侧标签 -->
 			<p class="label">{{label}} : </p>
 			<!-- 右侧内容 -->
@@ -68,7 +68,7 @@
 			keyboard
 		},
 		created () {
-			document.addEventListener('click', () => {
+			document.addEventListener('touchstart', () => {
 				this.blur();
 			});
 		},	
@@ -100,12 +100,12 @@
 		methods: {
 			/*focus*/
 			focus () {
+				/*显示键盘*/
+				this.showKeyboard();				
 				/*显示光标*/
 				this.showCursor();
 				/*闪烁光标*/
 				this.blinkCursor();
-				/*显示键盘*/
-				this.showKeyboard();
 			},
 			blinkCursor () {
 				clearInterval(this.intervalID);
