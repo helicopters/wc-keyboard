@@ -1,15 +1,29 @@
 <style>
 
+.box{
 
+  height: 100%;
+  border:1px solid #ccc;
+  height: 45px;
+  padding:10px;
+  margin:10px;
+
+
+}
 </style>
 <template>
   <div id="aap">
-     <wc-keyboard 
+    <div class="box">
+       <wc-keyboard 
         placeholder="询问服务员后输入"
-        inter="3"
+        inter="5"
         decimal="4"
 
-        v-model="val"/>
+        v-model="val"/>    
+
+
+    </div>
+
      {{val}}
   </div>
 </template>

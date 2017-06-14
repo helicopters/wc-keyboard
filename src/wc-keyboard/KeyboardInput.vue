@@ -2,17 +2,14 @@
 .keyboard{
 	font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
 	user-select:none;
-	font-size: 16px;			
+	font-size: 16px;
+	width: 100%;		
 }
 .input-box {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: 100%;
-	border:1px solid #ccc;
-	height: 45px;
-	padding:10px;
-	margin:10px;
+	
 	.label {
 		color: #333;
 	}
@@ -39,7 +36,7 @@
 <template>
 	<div class="keyboard">
 		<!-- 自定义输入框 -->
-		<div class="input-box" @touchstart.stop="focus">
+		<div class="input-box" @click.stop="focus">
 			<!-- 左侧标签 -->
 			<p class="label">{{label}} : </p>
 			<!-- 右侧内容 -->
@@ -71,7 +68,7 @@
 			keyboard
 		},
 		created () {
-			document.addEventListener('touchstart', () => {
+			document.addEventListener('click', () => {
 				this.blur();
 			});
 		},	
@@ -131,7 +128,13 @@
 					附加 00, 如果用户输入了一个以 . 结尾的值就点完成了, 
 					那么这个时候就在后面加上00
 				*/
-				this.toAddZero();
+				this.toCompletion();
+				/*通知父组件, 老子值出来了*/
+				/*
+					校验用户输入的金额是不是为 0, 如果是的话, 直接重置
+				*/
+				this.checkValue();
+				this.notify();
 
 			},
 			showKeyboard () {
@@ -146,19 +149,31 @@
 			hideCursor () {
 				this.cursor = false;
 			},
-			/*判读是否需要加0*/
-			toAddZero () {
-				if (this.val.slice(-1) === '.') {
-					this.addZero();
-				} 
+			checkValue () {
+				if (parseInt(this.val) === 0) {
+					this.val = '';
+				}
 			},
-			addZero () {
+			/*判读是否需要加0*/
+			toCompletion () {
+				let list = this.value.split('.');
+				if (typeof list[1] === 'undefined') {
+					if (this.val !== '') {
+						this.val = this.val + '.';
+						this.completion(this.decimal);
+					}
+				} else {
+					if (list[1].length < this.decimal) {
+						this.completion(this.decimal - list[1].length);
+					}					
+				}
+			},
+			completion (len) {
 				let v = '';
-				for(let i =0;i<this.decimal;i++){
+				for(let i =0;i<len;i++){
 					v = v + '0';
 				}
 				this.val = this.val + v;
-				this.notify();
 			},
 			notify () {
 				this.$emit('input',this.val);
