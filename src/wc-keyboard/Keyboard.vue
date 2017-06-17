@@ -10,7 +10,7 @@
 	.done {
 		height: 50px;
 		background: #f9f9f9;
-		border: 1px solid #d6d6d6;
+		border: .5px solid #d6d6d6;
 		border-right: none;
 		border-left: none;
 		padding-right: 10px;
@@ -33,8 +33,8 @@
 				width: 33.33%;
 				float:left;
 				
-				border-right: 1px solid #d6d6d6;
-				border-top: 1px solid #d6d6d6;
+				border-right: .5px solid #d6d6d6;
+				border-top: .5px solid #d6d6d6;
 				
 				display: flex;
 				align-items: center;

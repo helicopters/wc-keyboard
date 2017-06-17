@@ -23,24 +23,14 @@
 
 
     </div>
-
-     {{val}}
   </div>
 </template>
 <script>
   export default {
     data () {
       return {
-        // keyboardConfig: {
-        //   inter: 5,
-        // },
-        val: '123'
+        val: ''
       }
-    },
-  	methods: {
-  		keyInput (v) {
-        this.v = v;
-  		}
-  	}
+    }
   }
 </script>

@@ -56,7 +56,7 @@
 		<keyboard 
 			:show="keyboard"
 			@typing="typing"
-			@complete="blur"/>		
+			@complete="blur"/>
 	</div>		
 
 </template>
