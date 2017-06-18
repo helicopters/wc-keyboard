@@ -17,7 +17,7 @@
        <wc-keyboard 
         placeholder="询问服务员后输入"
         inter="5"
-        decimal="4"
+        decimal="2"
 
         v-model="val"/>    
 

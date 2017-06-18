@@ -9,7 +9,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	
+	line-height: 24px;
 	.label {
 		color: #333;
 	}
@@ -45,7 +45,7 @@
 					<span class="currency" v-show="val">¥</span>
 					{{val}}
 				</p>
-				<p class="placeholder" v-if="val.length === 0">
+				<p class="placeholder" v-show="val.length === 0">
 					{{placeholder}}
 				</p>
 				<!-- 光标 -->
@@ -95,6 +95,8 @@
 				val: '', 
 				aIllegal: ['00', '01' ,'02','03','04','05','06','07','08','09', '0..', '.'],
 				cursorDuration: 600,
+				bodyHeight: '',
+				bodyOverflow: ''
 			}
 		},
 		methods: {
@@ -179,14 +181,14 @@
 				this.$emit('input',this.val);
 			},
 			del () {
-				this.val = this.val.slice(0, -1);
 				/*删除值并不会触发值的校验, 所以需要手动再触发一次*/
+				this.val = this.val.slice(0, -1);
 				this.notify();
 			},
 			/*输入*/
 			typing (value) {
 				/*如果是点击删除*/
-				if (value == '') {
+				if (value === '') {
 					this.del();
 				}
 				/*保存旧的值*/
@@ -213,7 +215,7 @@
 				});
 			},
 			illegalInput (val) {
-				if (this.aIllegal.indexOf(val)>-1) {
+				if (this.aIllegal.indexOf(val) > -1) {
 					return false;
 				}
 				return true;

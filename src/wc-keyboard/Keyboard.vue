@@ -44,11 +44,6 @@
 			.key:nth-child(3n) {
 				border-right:none;
 			}
-			.dot {
-				span {
-					height: 100%;
-				}
-		}
 	}
 }
 .del {
@@ -87,30 +82,30 @@
 </style>
 <template>
 	<transition name="slide">
-		<div class="keyboard animated" v-show="show">
+		<div class="keyboard animated" v-show="show"  @touchstart.stop="fn" @touchmove.prevent="fn">
 			<!-- 顶部完成 -->
-			<div class="done" @touchstart.stop="fn">
-				<p class="text" @click.stop="complete">完成</p>
+			<div class="done">
+				<p class="text" @touchstart="complete">完成</p>
 			</div>
 			<!-- 键盘区域 -->
 			<div class="list">
-				<div class="key" @touchstart.stop="typing('1')">1</div>
-				<div class="key" @touchstart.stop="typing('2')">2</div>
-				<div class="key" @touchstart.stop="typing('3')">3</div>
-				<div class="key" @touchstart.stop="typing('4')">4</div>
-				<div class="key" @touchstart.stop="typing('5')">5</div>
-				<div class="key" @touchstart.stop="typing('6')">6</div>
-				<div class="key" @touchstart.stop="typing('7')">7</div>
-				<div class="key" @touchstart.stop="typing('8')">8</div>
-				<div class="key" @touchstart.stop="typing('9')">9</div>
+				<div class="key" @touchstart="typing('1')">1</div>
+				<div class="key" @touchstart="typing('2')">2</div>
+				<div class="key" @touchstart="typing('3')">3</div>
+				<div class="key" @touchstart="typing('4')">4</div>
+				<div class="key" @touchstart="typing('5')">5</div>
+				<div class="key" @touchstart="typing('6')">6</div>
+				<div class="key" @touchstart="typing('7')">7</div>
+				<div class="key" @touchstart="typing('8')">8</div>
+				<div class="key" @touchstart="typing('9')">9</div>
 				<div class="key dot" 
-					@touchstart.stop="typing('.')">
+					@touchstart="typing('.')">
 					<i class="iconfont icon-dot"></i>
 				</div>
 				<div class="key" 
-					@touchstart.stop="typing('0')">0</div>
+					@touchstart="typing('0')">0</div>
 				<div class="key" 
-					@touchstart.stop="typing('')">
+					@touchstart="typing('')">
 					<i class="iconfont icon-keyboard-delete del"></i>
 				</div>
 			</div>
