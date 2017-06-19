@@ -265,7 +265,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			/*value 在组件中的值*/
 			val: '',
 			aIllegal: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '0..', '.'],
-			cursorDuration: 600
+			cursorDuration: 600,
+			bodyHeight: '',
+			bodyOverflow: ''
 		};
 	},
 
@@ -354,15 +356,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.$emit('input', this.val);
 		},
 		del: function del() {
-			this.val = this.val.slice(0, -1);
 			/*删除值并不会触发值的校验, 所以需要手动再触发一次*/
+			this.val = this.val.slice(0, -1);
 			this.notify();
 		},
 
 		/*输入*/
 		typing: function typing(value) {
 			/*如果是点击删除*/
-			if (value == '') {
+			if (value === '') {
 				this.del();
 			}
 			/*保存旧的值*/
@@ -419,11 +421,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
 //
 //
 //
@@ -642,22 +639,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.show),
       expression: "show"
     }],
-    staticClass: "keyboard animated"
-  }, [_c('div', {
-    staticClass: "done",
+    staticClass: "keyboard animated",
     on: {
       "touchstart": function($event) {
         $event.stopPropagation();
         _vm.fn($event)
+      },
+      "touchmove": function($event) {
+        $event.preventDefault();
+        _vm.fn($event)
       }
     }
+  }, [_c('div', {
+    staticClass: "done"
   }, [_c('p', {
     staticClass: "text",
     on: {
-      "click": function($event) {
-        $event.stopPropagation();
-        _vm.complete($event)
-      }
+      "touchstart": _vm.complete
     }
   }, [_vm._v("完成")])]), _vm._v(" "), _c('div', {
     staticClass: "list"
@@ -665,7 +663,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('1')
       }
     }
@@ -673,7 +670,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('2')
       }
     }
@@ -681,7 +677,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('3')
       }
     }
@@ -689,7 +684,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('4')
       }
     }
@@ -697,7 +691,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('5')
       }
     }
@@ -705,7 +698,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('6')
       }
     }
@@ -713,7 +705,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('7')
       }
     }
@@ -721,7 +712,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('8')
       }
     }
@@ -729,7 +719,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('9')
       }
     }
@@ -737,7 +726,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key dot",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('.')
       }
     }
@@ -747,7 +735,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('0')
       }
     }
@@ -755,7 +742,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "key",
     on: {
       "touchstart": function($event) {
-        $event.stopPropagation();
         _vm.typing('')
       }
     }
@@ -793,9 +779,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "val"
     }],
     staticClass: "currency"
-  }, [_vm._v("¥")]), _vm._v("\n\t\t\t\t" + _vm._s(_vm.val) + "\n\t\t\t")]), _vm._v(" "), (_vm.val.length === 0) ? _c('p', {
+  }, [_vm._v("¥")]), _vm._v("\n\t\t\t\t" + _vm._s(_vm.val) + "\n\t\t\t")]), _vm._v(" "), _c('p', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.val.length === 0),
+      expression: "val.length === 0"
+    }],
     staticClass: "placeholder"
-  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.placeholder) + "\n\t\t\t")]) : _vm._e(), _vm._v(" "), _c('p', {
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.placeholder) + "\n\t\t\t")]), _vm._v(" "), _c('p', {
     staticClass: "cursor",
     style: ({
       visibility: _vm.cursor ? 'visible' : 'hidden'
