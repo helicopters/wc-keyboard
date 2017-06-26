@@ -246,11 +246,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	props: {
+		value: '',
 		inter: {
-			default: 10
+			default: 5
 		},
 		decimal: {
-			default: 20
+			default: 2
 		},
 		label: {
 			default: '消费金额'
@@ -422,6 +423,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
