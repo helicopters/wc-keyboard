@@ -1,89 +1,86 @@
 <style scoped lang="less">
-.keyboard {
-	height: 250px;
-	width: 100%;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	background: white;
-	z-index: 999;
-	.done {
-		height: 50px;
-		background: #f9f9f9;
-		border: .5px solid #d6d6d6;
-		border-right: none;
-		border-left: none;
-		padding-right: 10px;
-		border-bottom: none;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
+	.keyboard {
+		height: 250px;
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		background: white;
+		z-index: 999;
+		.done {
+			height: 50px;
+			background: #f9f9f9;
+			border: .5px solid #d6d6d6;
+			border-right: none;
+			border-left: none;
+			padding-right: 10px;
+			border-bottom: none;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
 
-		.text {
-			color: #007eff;
+			.text {
+				color: #007eff;
+			}
 		}
-	}
-	.list {
-		height: 200px;
-			.key:active{
+		.list {
+			height: 200px;
+			.key:active {
 				background: #e2e2e2;
 			}
 			.key {
 				height: 25%;
 				width: 33.33%;
-				float:left;
-				
+				float: left;
 				border-right: .5px solid #d6d6d6;
 				border-top: .5px solid #d6d6d6;
-				
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				font-size: 30px;
 			}
 			.key:nth-child(3n) {
-				border-right:none;
+				border-right: none;
 			}
+		}
 	}
-}
-.del {
-	font-size: 28px;
-}
-
-.animated {
-	animation-duration: .2s;
-	animation-fill-mode: both;
-}
-@keyframes slideInDown {
-	from {
-		transform: translate3d(0, 0, 0);
-		visibility: visible;
+	.del {
+		font-size: 28px;
 	}
-	to {
-		transform: translate3d(0, 100%, 0);
-		display: none;
+	.animated {
+		animation-duration: .2s;
+		animation-fill-mode: both;
 	}
-}
-@keyframes slideInUp {
-	from {
-		transform: translate3d(0, 100%, 0);
-		visibility: visible;
+	@keyframes slideInDown {
+		from {
+			transform: translate3d(0, 0, 0);
+			visibility: visible;
+		}
+		to {
+			transform: translate3d(0, 100%, 0);
+			display: none;
+		}
 	}
-	to {
-		transform: translate3d(0, 0, 0);
+	@keyframes slideInUp {
+		from {
+			transform: translate3d(0, 100%, 0);
+			visibility: visible;
+		}
+		to {
+			transform: translate3d(0, 0, 0);
+		}
 	}
-}
-.slide-enter-active {
-	animation-name: slideInUp;
-}
-.slide-leave-active {
-	animation-name: slideInDown;
-}
+	.slide-enter-active {
+		animation-name: slideInUp;
+	}
+	.slide-leave-active {
+		animation-name: slideInDown;
+	}
 </style>
 <template>
 	<transition name="slide">
-		<div class="keyboard animated" v-show="show"  @touchstart.stop="fn" @touchmove.prevent="fn">
-			<!-- 顶部完成 -->
+		<div class="keyboard animated" v-show="show" @touchstart.stop.prevent="fn">
+			<!-- 完成 按钮-->
 			<div class="done">
 				<p class="text" @touchstart="complete">完成</p>
 			</div>
@@ -115,18 +112,10 @@
 <script>	
 	export default {
 		props: ['show'],
-		data () {
-			return {
-				keyboard: false,
-			}
-		},
 		methods: {
 			/*防止点击完成按钮左边的空白区域收起键盘*/
 			fn () {},
-			/*
-				将当前点击的值提交给 输入框
-				typeof val 始终恒定为 String 类型
-			*/
+			/*输入*/
 			typing (val) {
 				this.$emit('typing', val);
 			},

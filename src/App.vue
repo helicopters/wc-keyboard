@@ -1,15 +1,11 @@
 <style>
-
-.box{
-
-  height: 100%;
-  border:1px solid #ccc;
-  height: 45px;
-  padding:10px;
-  margin:10px;
-
-
-}
+  .box{
+    height: 100%;
+    border:1px solid #ccc;
+    height: 45px;
+    padding:10px;
+    margin:10px;
+  }
 </style>
 <template>
   <div id="aap">
@@ -18,10 +14,7 @@
         placeholder="询问服务员后输入"
         inter="5"
         decimal="2"
-
-        v-model="val"/>    
-
-
+        v-model="val"/>
     </div>
   </div>
 </template>

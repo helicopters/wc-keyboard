@@ -28,6 +28,7 @@ import 'wc-keyboard/style.css'
 Vue.use(wcKeyBoad);
 
 <wc-keyboard
+	v-model="xxx"
 	inter="5"
 	decimal="2"
 	placeholder="询问服务员后输入"

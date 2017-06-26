@@ -1,37 +1,39 @@
 <style scoped lang="less">
-.keyboard{
-	font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
-	user-select:none;
-	font-size: 16px;
-	width: 100%;		
-}
-.input-box {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	line-height: 24px;
-	.label {
-		color: #333;
+	.keyboard {
+		font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+		user-select: none;
+		font-size: 16px;
+		width: 100%;
 	}
-	.content {
+	.input-box {
 		display: flex;
-		.input {
-			font-size: 20px;
-			color: #313131;
+		align-items: center;
+		justify-content: space-between;
+		line-height: 24px;
+
+		.label {
+			color: #333;
 		}
-		.cursor {
-			background-color: #4788c5;
-			width: 2px;
-			margin-left: 2px;
+		.content {
+			display: flex;
+
+			.input {
+				font-size: 20px;
+				color: #313131;
+			}
+			.cursor {
+				background-color: #4788c5;
+				width: 2px;
+				margin-left: 2px;
+			}
+			.placeholder {
+				color: #ccc;
+			}
+			.currency {
+				color: #c1c1c1;
+			}
 		}
-		.placeholder {
-			color: #ccc;
-		}
-		.currency {
-			color: #c1c1c1;
-		}
-	}
-}	
+	}	
 </style>
 <template>
 	<div class="keyboard">
@@ -75,10 +77,10 @@
 		props: {
 			value: {},
 			inter: {
-				default: 5
+				default: 10
 			},
 			decimal: {
-				default: 2
+				default: 20
 			},
 			label: {
 				default: '消费金额'
