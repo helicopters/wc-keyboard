@@ -1,6 +1,6 @@
 {
     "name": "wc-keyboard",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "description": "Vue keyboard",
     "main": "index.js",
     "keywords": [

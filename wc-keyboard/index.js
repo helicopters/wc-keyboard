@@ -228,6 +228,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -244,12 +246,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	props: {
-		value: {},
 		inter: {
-			default: 5
+			default: 10
 		},
 		decimal: {
-			default: 2
+			default: 20
 		},
 		label: {
 			default: '消费金额'
@@ -532,26 +533,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['show'],
-	data: function data() {
-		return {
-			keyboard: false
-		};
-	},
-
 	methods: {
 		/*防止点击完成按钮左边的空白区域收起键盘*/
 		fn: function fn() {},
 
-		/*
-  	将当前点击的值提交给 输入框
-  	typeof val 始终恒定为 String 类型
-  */
+		/*输入*/
 		typing: function typing(val) {
 			this.$emit('typing', val);
 		},
@@ -643,9 +632,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "touchstart": function($event) {
         $event.stopPropagation();
-        _vm.fn($event)
-      },
-      "touchmove": function($event) {
         $event.preventDefault();
         _vm.fn($event)
       }

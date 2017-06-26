@@ -12,6 +12,7 @@
     <div class="box">
        <wc-keyboard 
         placeholder="询问服务员后输入"
+        label="消费金额"
         inter="5"
         decimal="2"
         v-model="val"/>

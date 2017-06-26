@@ -102,10 +102,12 @@
 				<div class="key" 
 					@touchstart="typing('0')">0</div>
 				<div class="key"
-					@touchstart="typing('')">
+					@touchstart="typing('')"
+					>
 					<i class="iconfont icon-keyboard-delete del"></i>
 				</div>
 			</div>
+
 		</div>
 	</transition>
 </template>

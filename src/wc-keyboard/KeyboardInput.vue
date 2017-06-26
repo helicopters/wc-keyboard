@@ -75,12 +75,12 @@
 			});
 		},	
 		props: {
-			value: {},
+			value: '',
 			inter: {
-				default: 10
+				default: 5
 			},
 			decimal: {
-				default: 20
+				default: 2
 			},
 			label: {
 				default: '消费金额'

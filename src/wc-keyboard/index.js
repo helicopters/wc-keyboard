@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
 import wcKeyboard from './KeyboardInput'
+import {Press} from './wc-directive'
+Vue.use(Press)
 
 import './fonts/iconfont.css'
 
