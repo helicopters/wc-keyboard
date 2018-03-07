@@ -23,7 +23,7 @@ npm i wc-keyboard --save
 ```javascript
 import wcKeyBoard from 'wc-keyboard'
 import 'wc-keyboard/style.css'
-Vue.use(wcKeyBoad);
+Vue.use(wcKeyBoard);
 
 ```
 
